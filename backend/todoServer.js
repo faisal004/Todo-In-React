@@ -2,8 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const fs = require("fs");
+var cors = require('cors')
 
 const app = express();
+app.use(cors())
 const port = 3000;
 var todos = [];
 
