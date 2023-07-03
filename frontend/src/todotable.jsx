@@ -1,5 +1,4 @@
-import  { useState, useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
 
 const Table = () => {
   const [data, setData] = useState([]);
@@ -10,7 +9,7 @@ const Table = () => {
         const response = await fetch("http://localhost:3000/todos");
         const jsonData = await response.json();
         setData(jsonData);
-        console.log(jsonData)
+        console.log(jsonData);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
@@ -19,7 +18,17 @@ const Table = () => {
     fetchData();
   }, []);
 
-  
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/todos/${id}`, {
+        method: 'DELETE',
+      });
+      setData(data.filter(item => item.id !== id));
+      console.log(`Deleted item with ID ${id}`);
+    } catch (error) {
+      console.log("Error deleting item:", error);
+    }
+  };
 
   return (
     <>
@@ -40,7 +49,7 @@ const Table = () => {
               <td>{item.description}</td>
               <td id='button-table'>
                 <button id='edit'>Edit</button>
-                <button id='delete'>Delete</button>
+                <button id='delete' onClick={() => handleDelete(item.id)}>Delete</button>
               </td>
             </tr>
           ))}
